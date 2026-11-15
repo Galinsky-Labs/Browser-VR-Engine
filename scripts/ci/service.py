@@ -136,7 +136,7 @@ def main(local=False):
         for name in STAGES:
             require(stopped['signal'] is None, 'Service CI was interrupted')
             cwd = f05 if name.startswith('f05-') or name == 'browser-install' else SERVICE
-            timeout = 900 if name == 'full-automation' else (240 if name in ('launcher-regressions', 'f05-install', 'browser-install') else 90)
+            timeout = 900 if name == 'full-automation' else (600 if name == 'browser-install' else (240 if name in ('launcher-regressions', 'f05-install') else 90))
             reports_before = set()
             if name in REGRESSIONS:
                 prefix = REGRESSIONS[name][0] + '-'

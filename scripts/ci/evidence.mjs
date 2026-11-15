@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { resolve, relative, isAbsolute } from 'node:path';
 
-export const repository = 'neophilism/Browser-VR-Engine';
+export const repository = 'Galinsky-Labs/Browser-VR-Engine';
 export const shaPattern = /^[a-f0-9]{40}$/;
 export const digest = value => createHash('sha256').update(value).digest('hex');
 export const foundationCommands = Object.freeze([

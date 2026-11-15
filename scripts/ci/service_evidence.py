@@ -12,7 +12,7 @@ spec = importlib.util.spec_from_file_location('service_automation', SERVICE / 'a
 automation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(automation)
 require = automation.require
-REPOSITORY = 'neophilism/Browser-VR-Engine'
+REPOSITORY = 'Galinsky-Labs/Browser-VR-Engine'
 SHA = r'[a-f0-9]{40}'
 BUILD_INPUTS = {'src/main.js', 'src/xr-session.js', 'src/spatial-audio.js', 'src/audio-meter.js', 'src/import-policy.js',
                 'src/import-resources.js', 'src/portable-world.js', 'src/media-policy.js', 'contracts-build.mjs',

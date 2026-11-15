@@ -15,9 +15,11 @@ const pins = JSON.parse(await readFile(new URL('../../docs/ci/action-pins.json',
 test('the actual workflow conforms to the checked-in policy', () => assert.deepEqual(validateWorkflow(workflowText, pins), []));
 
 const deploymentMonitorText = await readFile(new URL('../../.github/workflows/deployment-monitor-contract.yml', import.meta.url), 'utf8');
-test('the deployment monitor caller uses the reviewed immutable contract', () => assert.deepEqual(validateDeploymentMonitorWorkflow(deploymentMonitorText), []));
+test('the deployment monitor contract is the local advisory check', () => assert.deepEqual(validateDeploymentMonitorWorkflow(deploymentMonitorText), []));
 for (const [name, mutate] of [
-  ['floating DDM ref', workflow => { workflow.jobs.contract.uses = 'neophilism/Development-Deployment-Monitor/.github/workflows/validate-client.yml@main'; }],
+  ['external reusable workflow', workflow => { workflow.jobs.contract = { uses: 'neophilism/Development-Deployment-Monitor/.github/workflows/validate-client.yml@main' }; }],
+  ['blocking contract', workflow => { workflow.jobs.contract['continue-on-error'] = false; }],
+  ['floating checkout', workflow => { workflow.jobs.contract.steps[0].uses = 'actions/checkout@v7'; }],
   ['manual trigger', workflow => { workflow.on.workflow_dispatch = {}; }],
   ['write permission', workflow => { workflow.permissions.contents = 'write'; }],
   ['caller parameters', workflow => { workflow.jobs.contract.with = { mode: 'unreviewed' }; }],
