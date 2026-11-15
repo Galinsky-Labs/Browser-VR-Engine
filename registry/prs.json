@@ -1,5 +1,5 @@
 {
-  "repository": "neophilism/Browser-VR-Engine",
+  "repository": "Galinsky-Labs/Browser-VR-Engine",
   "title": "Browser-VR-Engine canonical PR development plan",
   "schemaVersion": 1,
   "roadmapVersion": 1,
@@ -132,7 +132,9 @@
     {
       "id": "BVR-F06",
       "title": "Select the foundation and map retained subsystems",
-      "prs": [],
+      "prs": [
+        15
+      ],
       "dependsOn": [
         "BVR-F04",
         "BVR-F05"
@@ -152,7 +154,9 @@
     {
       "id": "BVR-F07",
       "title": "Pin upstream components and establish fork maintenance",
-      "prs": [],
+      "prs": [
+        15
+      ],
       "dependsOn": [
         "BVR-F06"
       ],
@@ -190,7 +194,9 @@
     {
       "id": "BVR-W01",
       "title": "Version complete world, entity and prefab schemas",
-      "prs": [],
+      "prs": [
+        15
+      ],
       "dependsOn": [
         "BVR-F06"
       ],
@@ -209,7 +215,9 @@
     {
       "id": "BVR-W02",
       "title": "Implement runtime lifecycle and injectable local services",
-      "prs": [],
+      "prs": [
+        15
+      ],
       "dependsOn": [
         "BVR-W01",
         "BVR-F07"
@@ -248,7 +256,9 @@
     {
       "id": "BVR-W04",
       "title": "Provide desktop, touch and accessible action input",
-      "prs": [],
+      "prs": [
+        15
+      ],
       "dependsOn": [
         "BVR-W03"
       ],
@@ -267,7 +277,9 @@
     {
       "id": "BVR-W05",
       "title": "Integrate WebXR sessions, controllers and comfort controls",
-      "prs": [],
+      "prs": [
+        15
+      ],
       "dependsOn": [
         "BVR-W04"
       ],
@@ -2959,6 +2971,34 @@
       "mergedAt": "2026-10-18T21:39:06Z",
       "closedAt": "2026-10-18T21:39:06Z",
       "draft": false
+    },
+    {
+      "id": 14,
+      "number": 14,
+      "title": "ci: repair main CI after Galinsky-Labs transfer",
+      "state": "closed",
+      "url": "https://github.com/Galinsky-Labs/Browser-VR-Engine/pull/14",
+      "mergedAt": "2026-11-15",
+      "draft": false
+    },
+    {
+      "id": 15,
+      "number": 15,
+      "title": "F06/F07 provisional foundation, W01 world schema, W02 runtime and example world",
+      "state": "closed",
+      "url": "https://github.com/Galinsky-Labs/Browser-VR-Engine/pull/15",
+      "mergedAt": "2026-11-15",
+      "draft": false
+    },
+    {
+      "id": 13,
+      "number": 13,
+      "title": "build(deps): bump actions/setup-java from 6.1.0 to 6.2.0",
+      "state": "closed",
+      "url": "https://github.com/Galinsky-Labs/Browser-VR-Engine/pull/13",
+      "mergedAt": null,
+      "draft": false,
+      "note": "closed unmerged; superseded by #14"
     }
   ]
 }
