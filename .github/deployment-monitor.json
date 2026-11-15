@@ -15,5 +15,14 @@
     "writer_fencing": false,
     "router": "none"
   },
-  "deployments": []
+  "deployments": [
+    {
+      "provider": "render",
+      "service": "browser-vr-engine",
+      "service_id": "srv-dbsvtet6e07s73b1snv0",
+      "type": "static_site",
+      "url": "https://browser-vr-engine.onrender.com",
+      "plan": "free"
+    }
+  ]
 }

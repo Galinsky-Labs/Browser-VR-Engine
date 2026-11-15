@@ -23,3 +23,5 @@ Deploy immutable tested artifacts. Keep service credentials out of browser bundl
 `render.yaml` declares the free Render static site `browser-vr-engine` (Galinsky Laboratories workspace, auto-deploy from `main`). Build: `npm ci --ignore-scripts --no-audit --no-fund && npm run example:world:build`; publish path `examples/world-demo/dist` (the example world, `/docs/` pages rendered from the repository records, and `THIRD_PARTY_NOTICES.txt`). Node is pinned with `NODE_VERSION=24.19.0`. No secrets, accounts or server APIs are involved. Locally: `npm run example:world` serves the same build at `http://127.0.0.1:8787/`.
 
 WebXR needs HTTPS, which Render provides. Immersive entry appears only when the browser reports an `immersive-vr` device; it has not been observed on a physical headset.
+
+Deployed 2026-11-15: service `srv-dbsvtet6e07s73b1snv0`, https://browser-vr-engine.onrender.com, first deploy `dep-dbsvtf56e07s73b1soug` (commit `9abb8c6`) built and went `live` (Render events: build_ended succeeded, deploy_ended succeeded).
