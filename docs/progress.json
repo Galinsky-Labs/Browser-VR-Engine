@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-18",
+  "updated": "2026-11-15",
   "units": [
     {
       "id": "F01",
@@ -87,25 +87,37 @@
     },
     {
       "id": "F06",
-      "status": "planned",
+      "status": "implemented",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
-      "securityReview": null,
+      "verification": [
+        "docs/decisions/0002-provisional-foundation-selection.md",
+        "docs/foundation/capability-map.json",
+        "docs/evidence/F06-W02.md"
+      ],
+      "securityReview": "docs/security/F06-W02.md",
       "deployment": null,
-      "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "blockers": [
+        "Provisional owner-deferred decision (docs/decisions/0002-provisional-foundation-selection.md): F04/F05 lack physical headset/controller/audio and target-device evidence; selection is pending headset verification and may be reversed."
+      ],
+      "nextAction": "Keep provisional. Re-evaluate after physical-headset and device qualification (R08/M23/M26); F04/F05 remain blocked and are not accepted by this record."
     },
     {
       "id": "F07",
-      "status": "planned",
+      "status": "implemented",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
-      "securityReview": null,
+      "verification": [
+        "docs/foundation/upstream-pins.json",
+        "docs/evidence/F06-W02.md"
+      ],
+      "securityReview": "docs/security/F06-W02.md",
       "deployment": null,
-      "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "blockers": [
+        "Provisional owner-deferred decision (docs/decisions/0002-provisional-foundation-selection.md): F04/F05 lack physical headset/controller/audio and target-device evidence; selection is pending headset verification and may be reversed.",
+        "Loaders, serializers and Rapier are pinned from the evaluation lockfile; they enter the root lockfile with W03/W07."
+      ],
+      "nextAction": "Move remaining pinned components into the root lockfile as their units land; keep pins and lock in the same PR."
     },
     {
       "id": "F08",
@@ -120,25 +132,32 @@
     },
     {
       "id": "W01",
-      "status": "planned",
+      "status": "implemented",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
-      "securityReview": null,
+      "verification": [
+        "packages/world/test/world.test.mjs",
+        "docs/evidence/F06-W02.md"
+      ],
+      "securityReview": "docs/security/F06-W02.md",
       "deployment": null,
       "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "nextAction": "Extend component schemas as W03+ add handlers; independent review not performed."
     },
     {
       "id": "W02",
-      "status": "planned",
+      "status": "implemented",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
-      "securityReview": null,
+      "verification": [
+        "packages/runtime/test/runtime.test.mjs",
+        "examples/world-demo/test/demo.test.mjs",
+        "docs/evidence/F06-W02.md"
+      ],
+      "securityReview": "docs/security/F06-W02.md",
       "deployment": null,
       "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "nextAction": "Promote the Babylon RendererPort adapter from examples/world-demo into a package with W03."
     },
     {
       "id": "W03",
@@ -153,25 +172,33 @@
     },
     {
       "id": "W04",
-      "status": "planned",
+      "status": "implementing",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
+      "verification": [
+        "packages/runtime/test/runtime.test.mjs"
+      ],
       "securityReview": null,
       "deployment": null,
-      "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "blockers": [
+        "Keyboard action mapping and desktop camera controls exist; touch joystick, remapping UI and accessibility (screen-reader/switch) acceptance are not implemented."
+      ],
+      "nextAction": "Implement touch and accessible action input against the ActionState contract."
     },
     {
       "id": "W05",
-      "status": "planned",
+      "status": "implementing",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
+      "verification": [
+        "examples/world-demo/src/main.js"
+      ],
       "securityReview": null,
       "deployment": null,
-      "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "blockers": [
+        "Babylon WebXRDefaultExperience entry, controllers and teleportation are wired in the example world but have no automated emulated-XR test in this workspace and no physical-headset observation (cannot be produced here)."
+      ],
+      "nextAction": "Port the F05 IWER emulated-XR checks to the example world; physical headset qualification remains owner-side."
     },
     {
       "id": "W06",

@@ -10,7 +10,7 @@ export const gateCommand = 'test "$CHECKS_RESULT" = success && test "$EVALUATION
 // integration regression, and --if-present would conceal a missing suite.
 export function validatePackageCommands(manifest) {
   const errors = [];
-  const packages = ['core', 'contracts', 'qualification-fixtures'];
+  const packages = ['core', 'contracts', 'qualification-fixtures', 'world', 'runtime', 'world-demo'];
   const expectedTest = ['npm run build', ...packages.map(name => `npm run test --workspace @browser-vr-engine/${name}`)].join(' && ');
   if (manifest?.scripts?.test !== expectedTest) errors.push('Required package test command omits or substitutes a suite');
   if (manifest?.scripts?.['example:all'] !== 'npm run example:sdk && npm run example:fixtures') errors.push('Required example command must run both standalone hosts');

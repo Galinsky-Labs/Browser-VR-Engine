@@ -1,8 +1,8 @@
 # Browser VR Engine
 
-A reusable browser world and game engine for desktop and VR. The development plan covers graphics, solid physics, avatars, editable worlds, broad asset conversion, shared state, spatial audio, presentations and media. The separate conference application is [XLR8](https://github.com/neophilism/XLR8).
+A reusable browser world and game engine for desktop and VR. The development plan covers graphics, solid physics, avatars, editable worlds, broad asset conversion, shared state, spatial audio, presentations and media. The separate conference application is [XLR8](https://github.com/Galinsky-Labs/XLR8).
 
-**Current stage: F03 is accepted; the F04/F05 foundation comparisons are in progress.** Three packages provide SDK metadata, versioned contracts/reference math, and an original reproducible test world. The isolated [foundation evaluations](evaluations/README.md) add real editor, rendering, physics, spatial-audio and import/export experiments. Their remaining service, world-semantics and physical-device requirements are recorded explicitly; they are not yet the selected production engine. The engine is completed before XLR8 implementation begins.
+**Current stage: F03 accepted; F04/F05 comparisons blocked on physical-headset evidence; a provisional, owner-deferred foundation selection (Babylon.js + Rapier, [decision 0002](docs/decisions/0002-provisional-foundation-selection.md)) is pending headset verification.** On top of it, `@browser-vr-engine/world` (W01 world/entity/prefab schema) and `@browser-vr-engine/runtime` (W02 lifecycle and local services) power a runnable [example world](examples/world-demo) for desktop and WebXR-capable browsers. The isolated [foundation evaluations](evaluations/README.md) retain the comparison evidence. Physical-headset behaviour is unverified.
 
 ## Develop
 
@@ -14,6 +14,7 @@ npm run check
 npm run example:all
 npm run test:consumer
 npm run test:sharding
+npm run example:world   # builds and serves the example world at http://127.0.0.1:8787/
 ```
 
 `npm run check` validates the plan and evidence references, checks package/workflow boundaries, performs the baseline credential scan, builds TypeScript and runs required package/tooling tests. `test:consumer` installs all three built tarballs outside the workspace and verifies the locked validation dependency before installation. `npm run check:dependencies` queries the npm registry; `npm run ci:local` runs the full foundation sequence and records a local preview. See [CI and merge procedure](docs/ci/README.md) for scopes, failure behavior and evidence identity.

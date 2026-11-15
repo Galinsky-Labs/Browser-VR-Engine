@@ -1,0 +1,11 @@
+{
+  "name": "@browser-vr-engine/runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist", "README.md"],
+  "scripts": { "test": "node --test test/*.test.mjs" },
+  "dependencies": { "@browser-vr-engine/world": "0.1.0" }
+}
