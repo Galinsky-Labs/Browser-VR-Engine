@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -b",
     "clean": "tsc -b --clean",
-    "test": "npm run build && npm run test --workspace @browser-vr-engine/core && npm run test --workspace @browser-vr-engine/contracts && npm run test --workspace @browser-vr-engine/qualification-fixtures && npm run test --workspace @browser-vr-engine/world && npm run test --workspace @browser-vr-engine/runtime && npm run test --workspace @browser-vr-engine/world-demo",
+    "test": "npm run build && npm run test --workspace @browser-vr-engine/core && npm run test --workspace @browser-vr-engine/contracts && npm run test --workspace @browser-vr-engine/qualification-fixtures && npm run test --workspace @browser-vr-engine/world && npm run test --workspace @browser-vr-engine/runtime && npm run test --workspace @browser-vr-engine/control && npm run test --workspace @browser-vr-engine/world-demo",
     "check:plan": "node scripts/check-plan.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "check:ci-policy": "node scripts/check-ci-policy.mjs",
@@ -30,7 +30,8 @@
     "example:all": "npm run example:sdk && npm run example:fixtures",
     "check:foundation": "node scripts/check-foundation.mjs",
     "example:world:build": "npm run build && npm run build --workspace @browser-vr-engine/world-demo",
-    "example:world": "npm run example:world:build && npm run serve --workspace @browser-vr-engine/world-demo"
+    "example:world": "npm run example:world:build && npm run serve --workspace @browser-vr-engine/world-demo",
+    "test:integration": "npm run test:integration --workspace @browser-vr-engine/control"
   },
   "devDependencies": {
     "typescript": "7.0.2",

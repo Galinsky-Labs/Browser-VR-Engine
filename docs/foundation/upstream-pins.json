@@ -91,6 +91,17 @@
    "shipped": "build only",
    "updateOwner": "engine maintainers (Galinsky Laboratories)",
    "fork": null
+  },
+  {
+   "name": "pg",
+   "version": "8.16.3",
+   "license": "MIT",
+   "integrity": "sha512-enxc1h0jA/aq5oSDMvqyW3q89ra6XIIDZgCX9vkMrnz5DFTw/Ny3Li2lFQ+pt3L6MCgm/5o2o8HW9hiJji+xvw==",
+   "lockfile": "package-lock.json",
+   "role": "PostgreSQL driver for control integration tests and hosts",
+   "shipped": "test/host only (engine packages take an injected SQL client)",
+   "updateOwner": "engine maintainers (Galinsky Laboratories)",
+   "fork": null
   }
  ]
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { parse, stringify } from 'yaml';
-import { validateWorkflow, validatePackageCommands, validateDeploymentMonitorWorkflow } from '../check-ci-policy.mjs';
+import { validateWorkflow, validatePackageCommands, validateDeploymentMonitorWorkflow, validateIntegrationWorkflow } from '../check-ci-policy.mjs';
 import { inspectBoundary } from '../check-boundaries.mjs';
 import { inspectExposure, redact, redactStructured } from '../check-secret-exposure.mjs';
 import { classifyAudit } from '../check-dependencies.mjs';
@@ -36,7 +36,7 @@ for (const [name, mutate] of [
 const manifest = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
 test('required package and example commands include every foundation host and suite', () => {
   assert.deepEqual(validatePackageCommands(manifest), []);
-  for (const suffix of [' && npm run test --workspace @browser-vr-engine/contracts', ' && npm run test --workspace @browser-vr-engine/qualification-fixtures', ' && npm run test --workspace @browser-vr-engine/world', ' && npm run test --workspace @browser-vr-engine/runtime', ' && npm run test --workspace @browser-vr-engine/world-demo']) {
+  for (const suffix of [' && npm run test --workspace @browser-vr-engine/contracts', ' && npm run test --workspace @browser-vr-engine/qualification-fixtures', ' && npm run test --workspace @browser-vr-engine/world', ' && npm run test --workspace @browser-vr-engine/runtime', ' && npm run test --workspace @browser-vr-engine/control', ' && npm run test --workspace @browser-vr-engine/world-demo']) {
     const changed = structuredClone(manifest);
     changed.scripts.test = changed.scripts.test.replace(suffix, '');
     assert.ok(validatePackageCommands(changed).length);
@@ -171,3 +171,20 @@ test('package inventory rejects missing public exports and leaked private files'
   assert.ok(validatePackInventory([...good, { path: '.env' }]).length);
   assert.ok(validatePackInventory([...good, { path: 'dist/../private-model.glb' }]).length);
 });
+
+const integrationText = await readFile(new URL('../../.github/workflows/engine-integration.yml', import.meta.url), 'utf8');
+test('the integration workflow conforms to its policy', () => assert.deepEqual(validateIntegrationWorkflow(integrationText, pins), []));
+for (const [name, mutate] of [
+  ['secret access', w => { w.jobs.integration.env.X = '${{ secrets.TOKEN }}'; }],
+  ['write permission', w => { w.jobs.integration.permissions.contents = 'write'; }],
+  ['non-blocking job', w => { w.jobs.integration['continue-on-error'] = true; }],
+  ['floating action', w => { w.jobs.integration.steps[1].uses = 'actions/setup-node@v7'; }],
+  ['skipped suite', w => { w.jobs.integration.steps[3].run = 'echo skipped'; }],
+  ['missing database', w => { delete w.jobs.integration.services; }]
+]) {
+  test(`integration policy rejects ${name}`, () => {
+    const workflow = parse(integrationText);
+    mutate(workflow);
+    assert.ok(validateIntegrationWorkflow(stringify(workflow), pins).length);
+  });
+}

@@ -10,7 +10,7 @@ export const gateCommand = 'test "$CHECKS_RESULT" = success && test "$EVALUATION
 // integration regression, and --if-present would conceal a missing suite.
 export function validatePackageCommands(manifest) {
   const errors = [];
-  const packages = ['core', 'contracts', 'qualification-fixtures', 'world', 'runtime', 'world-demo'];
+  const packages = ['core', 'contracts', 'qualification-fixtures', 'world', 'runtime', 'control', 'world-demo'];
   const expectedTest = ['npm run build', ...packages.map(name => `npm run test --workspace @browser-vr-engine/${name}`)].join(' && ');
   if (manifest?.scripts?.test !== expectedTest) errors.push('Required package test command omits or substitutes a suite');
   if (manifest?.scripts?.['example:all'] !== 'npm run example:sdk && npm run example:fixtures') errors.push('Required example command must run both standalone hosts');
@@ -90,6 +90,30 @@ export function validateDeploymentMonitorWorkflow(text) {
   return errors;
 }
 
+export function validateIntegrationWorkflow(text, pins) {
+  const errors = [];
+  const document = parseDocument(text, { uniqueKeys: true });
+  if (document.errors.length || document.warnings.length) return ['Integration workflow YAML is invalid'];
+  let workflow;
+  try { workflow = document.toJS({ maxAliasCount: 0 }); } catch { return ['Integration workflow aliases are not permitted']; }
+  if (Object.keys(workflow?.on ?? {}).sort().join(',') !== 'pull_request,push') errors.push('Integration workflow must run on PRs and main pushes');
+  if (JSON.stringify(workflow?.permissions) !== '{}') errors.push('Integration workflow default permissions must be empty');
+  const jobs = workflow?.jobs ?? {};
+  if (JSON.stringify(Object.keys(jobs)) !== '["integration"]') errors.push('Integration workflow must expose only the integration job');
+  const job = jobs.integration;
+  if (job?.name !== 'engine-integration' || job?.['runs-on'] !== 'ubuntu-24.04' || !Number.isInteger(job?.['timeout-minutes']) || job['timeout-minutes'] > 30) errors.push('Integration job identity, runner or timeout differs');
+  if (JSON.stringify(job?.permissions) !== '{"contents":"read"}') errors.push('Integration job permissions must be contents read only');
+  if (job?.['continue-on-error'] !== undefined) errors.push('Integration job must be able to fail');
+  if (!/^postgres:\d+$/.test(job?.services?.postgres?.image ?? '')) errors.push('Integration job needs a pinned major PostgreSQL service');
+  const steps = Array.isArray(job?.steps) ? job.steps : [];
+  if (steps[0]?.uses !== `actions/checkout@${pins['actions/checkout']?.sha}` || steps[0]?.with?.['persist-credentials'] !== false) errors.push('Integration checkout must be pinned without persisted credentials');
+  if (steps[1]?.uses !== `actions/setup-node@${pins['actions/setup-node']?.sha}`) errors.push('Integration Node setup must be pinned');
+  if (!steps.some(step => step.run === 'npm run build && npm run test:integration')) errors.push('Integration job must run the integration suite');
+  for (const step of steps) if (step.uses && !Object.values(pins).some(pin => step.uses.endsWith(`@${pin.sha}`))) errors.push(`Unpinned action ${step.uses}`);
+  if (/\bsecrets\s*(?:\.|\[)|id-token|pull_request_target|workflow_run/i.test(JSON.stringify(workflow))) errors.push('Integration workflow cannot request secrets or deployment authority');
+  return errors;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const root = resolve(import.meta.dirname, '..');
   const pins = JSON.parse(await readFile(resolve(root, 'docs/ci/action-pins.json'), 'utf8')).actions;
@@ -97,8 +121,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const errors = validatePackageCommands(JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8')));
   if (!files.includes('engine-ci.yml')) errors.push('Missing engine CI workflow');
   if (!files.includes('f04-hubs-runtime.yml')) errors.push('Missing reviewed manual F04 workflow');
+  if (!files.includes('engine-integration.yml')) errors.push('Missing F08 integration workflow');
   for (const file of files) {
-    const validate = file === 'engine-ci.yml' ? validateWorkflow : file === 'f04-hubs-runtime.yml' ? validateF04RuntimeWorkflow : file === 'deployment-monitor-contract.yml' ? validateDeploymentMonitorWorkflow : null;
+    const validate = file === 'engine-ci.yml' ? validateWorkflow : file === 'f04-hubs-runtime.yml' ? validateF04RuntimeWorkflow : file === 'deployment-monitor-contract.yml' ? validateDeploymentMonitorWorkflow : file === 'engine-integration.yml' ? validateIntegrationWorkflow : null;
     if (!validate) errors.push(`${file}: workflow has no reviewed policy`);
     else errors.push(...validate(await readFile(resolve(root, '.github/workflows', file), 'utf8'), pins).map(error => `${file}: ${error}`));
   }
