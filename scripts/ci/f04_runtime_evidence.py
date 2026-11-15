@@ -36,7 +36,7 @@ def require(condition, message):
 def now():
     return datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
 
-REPOSITORY = 'neophilism/Browser-VR-Engine'
+REPOSITORY = 'Galinsky-Labs/Browser-VR-Engine'
 WORKFLOW = '.github/workflows/f04-hubs-runtime.yml'
 WORKFLOW_REF = REPOSITORY + '/' + WORKFLOW + '@refs/heads/main'
 STATE = ROOT / 'artifacts/f04-runtime-state'

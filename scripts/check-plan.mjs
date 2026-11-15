@@ -44,7 +44,7 @@ export function validatePlan(plan, progress) {
     if (u.status === 'blocked' && (!u.blockers?.length || typeof u.nextAction !== 'string' || !u.nextAction.trim())) errors.push(`${u.id} blocked without reason or next action`);
     if (['verified', 'accepted'].includes(u.status) && (!evidence(u.verification) || !reference(u.securityReview, 'security'))) errors.push(`${u.id} lacks verification or security review references`);
     const repo = cards.get(u.id).repo === 'engine' ? 'Browser-VR-Engine' : 'XLR8';
-    if (u.status === 'accepted' && (!(new RegExp(`^https://github\\.com/neophilism/${repo}/pull/[1-9]\\d*$`)).test(u.pullRequest ?? '') || !sha(u.mergedCommit))) errors.push(`${u.id} lacks immutable merge evidence`);
+    if (u.status === 'accepted' && (!(new RegExp(`^https://github\\.com/(?:neophilism|Galinsky-Labs)/${repo}/pull/[1-9]\\d*$`)).test(u.pullRequest ?? '') || !sha(u.mergedCommit))) errors.push(`${u.id} lacks immutable merge evidence`);
     for (const [field, completed] of [['deployment', 'deployed'], ['qualification', 'qualified']]) {
       const value = u[field];
       if (value === null || value === undefined) continue;

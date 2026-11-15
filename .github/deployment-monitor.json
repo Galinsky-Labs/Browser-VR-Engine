@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "repository": "neophilism/Browser-VR-Engine",
+  "repository": "Galinsky-Labs/Browser-VR-Engine",
   "kind": "web-app",
   "monitoring": {
     "mode": "inventory"

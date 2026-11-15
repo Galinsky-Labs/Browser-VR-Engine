@@ -76,13 +76,16 @@ export function validateDeploymentMonitorWorkflow(text) {
   let workflow;
   try { workflow = document.toJS({ maxAliasCount: 0 }); } catch { return ['Deployment monitor workflow aliases are not permitted']; }
   const expectedPaths = ['.github/deployment-monitor.json', '.github/workflows/deployment-monitor-contract.yml'];
-  const expectedUse = 'neophilism/Development-Deployment-Monitor/.github/workflows/validate-client.yml@429a9203cec131189692bfa7e41124ef5a7a906c';
   if (workflow?.name !== 'Deployment monitor contract') errors.push('Deployment monitor workflow name differs');
   if (JSON.stringify(Object.keys(workflow?.on ?? {})) !== '["pull_request"]' || JSON.stringify(workflow?.on?.pull_request?.paths) !== JSON.stringify(expectedPaths)) errors.push('Deployment monitor trigger differs');
   if (JSON.stringify(workflow?.permissions) !== '{"contents":"read"}') errors.push('Deployment monitor permissions must be contents read only');
   if (JSON.stringify(Object.keys(workflow?.jobs ?? {})) !== '["contract"]') errors.push('Deployment monitor must expose only the contract job');
+  // No Galinsky-Labs Development-Deployment-Monitor exists; the contract job is a
+  // local, advisory (continue-on-error) inventory check with no external code.
   const contract = workflow?.jobs?.contract;
-  if (!contract || JSON.stringify(Object.keys(contract)) !== '["uses"]' || contract.uses !== expectedUse) errors.push('Deployment monitor must use the reviewed immutable reusable workflow');
+  const steps = contract?.steps ?? [];
+  if (!contract || contract.uses !== undefined || contract['continue-on-error'] !== true || contract['runs-on'] !== 'ubuntu-24.04' || !Number.isInteger(contract['timeout-minutes']) || contract['timeout-minutes'] > 5 || contract.with !== undefined) errors.push('Deployment monitor must be the local advisory contract job');
+  if (steps.length !== 2 || steps[0]?.uses !== 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' || steps[0]?.with?.['persist-credentials'] !== false || typeof steps[1]?.run !== 'string' || steps[1].uses !== undefined) errors.push('Deployment monitor steps differ from the reviewed local check');
   if (/\bsecrets\s*(?:\.|\[)|pull_request_target|workflow_run|workflow_dispatch/i.test(JSON.stringify(workflow))) errors.push('Deployment monitor cannot access secrets or privileged/manual events');
   return errors;
 }
