@@ -92,7 +92,7 @@ export const DEFAULT_LIMITS: Readonly<Limits> = Object.freeze({
 
 /** Component types this engine version understands. Hosts may register more. */
 export const BUILTIN_COMPONENTS: ReadonlySet<string> = new Set([
-  'mesh', 'material', 'collider', 'light', 'spawn', 'audio', 'media-surface', 'behavior', 'label', 'asset'
+  'mesh', 'material', 'collider', 'light', 'spawn', 'audio', 'media-surface', 'behavior', 'label', 'asset', 'model'
 ]);
 
 export class WorldValidationError extends Error {

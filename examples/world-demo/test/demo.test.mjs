@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { NullEngine, Scene, Vector3, Quaternion, Logger } from '@babylonjs/core';
 import { validateWorld, expandPrefabs, serializeWorld, parseWorld } from '@browser-vr-engine/world';
 import { createRuntime, createLocalServices } from '@browser-vr-engine/runtime';
-import { createBabylonRenderer, createEngineScheduler } from '../src/babylon-renderer.js';
+import { createBabylonRenderer, createEngineScheduler } from '@browser-vr-engine/renderer-babylon';
 import { WORLDS, courtyard, gallery } from '../src/worlds.js';
 import { marked } from '../vendor-free-markdown.mjs';
 

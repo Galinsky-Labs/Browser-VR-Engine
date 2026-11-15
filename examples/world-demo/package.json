@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@babylonjs/core": "9.30.0",
+    "@browser-vr-engine/renderer-babylon": "0.1.0",
     "@browser-vr-engine/runtime": "0.1.0",
     "@browser-vr-engine/world": "0.1.0"
   },
   "devDependencies": {
-    "esbuild": "0.28.2"
+    "esbuild": "0.28.2",
+    "iwer": "2.6.0"
   }
 }

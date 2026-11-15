@@ -1,0 +1,14 @@
+{
+  "name": "@browser-vr-engine/renderer-babylon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "exports": { ".": { "types": "./src/index.d.ts", "import": "./src/index.js" } },
+  "files": ["src", "README.md"],
+  "scripts": { "test": "node --test test/*.test.mjs" },
+  "dependencies": {
+    "@babylonjs/core": "9.30.0",
+    "@babylonjs/loaders": "9.30.0"
+  }
+}

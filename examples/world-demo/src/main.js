@@ -2,7 +2,7 @@
 // Uses only local services; no account, application API or media server.
 import { Engine, Scene, UniversalCamera, Vector3, Color4, WebXRDefaultExperience } from '@babylonjs/core';
 import { createRuntime, createLocalServices, bindVisibility } from '@browser-vr-engine/runtime';
-import { createBabylonRenderer, createEngineScheduler } from './babylon-renderer.js';
+import { createBabylonRenderer, createEngineScheduler } from '@browser-vr-engine/renderer-babylon';
 import { WORLDS } from './worlds.js';
 import { createSpatialAudio } from './spatial-audio.js';
 

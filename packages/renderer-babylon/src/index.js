@@ -1,7 +1,46 @@
-// Babylon.js RendererPort adapter for the provisionally selected foundation (F06).
-// Maps validated engine world entities to Babylon scene resources and releases
-// every resource it created on unmount. Promoted to a package by W03.
-import { TransformNode, MeshBuilder, StandardMaterial, Color3, Vector3, Quaternion, HemisphericLight, PointLight, DirectionalLight } from '@babylonjs/core';
+// Babylon.js RendererPort adapter for the provisionally selected foundation (F06/W03).
+// Maps validated engine world entities to Babylon scene resources, loads
+// canonical glTF/GLB assets through @babylonjs/loaders, and releases every
+// resource it created on unmount.
+import { TransformNode, MeshBuilder, StandardMaterial, Color3, Vector3, Quaternion, HemisphericLight, PointLight, DirectionalLight, LoadAssetContainerAsync } from '@babylonjs/core';
+import '@babylonjs/loaders/glTF/index.js';
+
+export const MAX_MODEL_BYTES = 64 * 1024 * 1024;
+const MODEL_TYPES = new Set(['model/gltf-binary', 'model/gltf+json']);
+
+/**
+ * Validate a canonical model before handing it to the loader (A04 subset):
+ * size bound, GLB header/version and, for JSON glTF, self-contained data-URI
+ * buffers/images only (no network fetches from inside an asset).
+ */
+export function inspectModel(bytes, mediaType) {
+  if (!MODEL_TYPES.has(mediaType)) throw new Error(`Unsupported model media type ${mediaType}`);
+  if (!(bytes instanceof Uint8Array) || bytes.byteLength === 0) throw new Error('Model bytes are empty');
+  if (bytes.byteLength > MAX_MODEL_BYTES) throw new Error(`Model exceeds ${MAX_MODEL_BYTES} bytes`);
+  if (mediaType === 'model/gltf-binary') {
+    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    if (bytes.byteLength < 20 || view.getUint32(0, true) !== 0x46546c67) throw new Error('GLB magic header missing');
+    if (view.getUint32(4, true) !== 2) throw new Error('Only glTF 2.0 GLB is supported');
+    if (view.getUint32(8, true) !== bytes.byteLength) throw new Error('GLB length field does not match the data');
+    return { kind: 'glb' };
+  }
+  let json;
+  try { json = JSON.parse(new TextDecoder().decode(bytes)); } catch { throw new Error('glTF JSON is malformed'); }
+  if (json?.asset?.version !== '2.0') throw new Error('Only glTF 2.0 is supported');
+  for (const list of [json.buffers ?? [], json.images ?? []]) for (const item of list) {
+    if (item.uri !== undefined && !String(item.uri).startsWith('data:')) throw new Error(`External glTF resource "${String(item.uri).slice(0, 60)}" must be imported through the asset pipeline`);
+  }
+  const supported = new Set(['KHR_materials_unlit', 'KHR_texture_transform', 'KHR_materials_emissive_strength', 'KHR_mesh_quantization']);
+  for (const extension of json.extensionsRequired ?? []) if (!supported.has(extension)) throw new Error(`Required glTF extension ${extension} is not supported`);
+  return { kind: 'gltf', animations: (json.animations ?? []).length, skins: (json.skins ?? []).length };
+}
+
+async function loadModel(scene, bytes, mediaType, name) {
+  const info = inspectModel(bytes, mediaType);
+  const source = info.kind === 'glb' ? bytes : `data:${new TextDecoder().decode(bytes)}`;
+  const container = await LoadAssetContainerAsync(source, scene, { pluginExtension: info.kind === 'glb' ? '.glb' : '.gltf', name });
+  return container;
+}
 
 const vec = value => new Vector3(value[0], value[1], value[2]);
 const color = (value, fallback = [0.8, 0.8, 0.8]) => Color3.FromArray(Array.isArray(value) && value.length === 3 ? value : fallback);
@@ -45,10 +84,14 @@ function behave(behavior, deltaSeconds) {
   }
 }
 
-export function createBabylonRenderer(scene, { render = true } = {}) {
+/**
+ * @param scene Babylon scene (right-handed for engine worlds)
+ * @param options.loadAsset async (world, assetId) => { bytes: Uint8Array, mediaType } for 'model' components
+ */
+export function createBabylonRenderer(scene, { render = true, loadAsset = null } = {}) {
   return {
     async mount(world, entities, signal) {
-      const handle = { worldId: world.id, nodes: new Map(), meshes: [], materials: [], lights: [], behaviors: [], spawn: null, floors: [], sounds: [], disposed: false };
+      const handle = { worldId: world.id, nodes: new Map(), meshes: [], materials: [], lights: [], behaviors: [], spawn: null, floors: [], sounds: [], containers: [], animations: [], disposed: false };
       try {
         for (const [index, entity] of entities.entries()) {
           if (signal.aborted) throw new Error('mount aborted');
@@ -76,6 +119,22 @@ export function createBabylonRenderer(scene, { render = true } = {}) {
             else mesh.isPickable = false;
             handle.meshes.push(mesh);
           }
+          if (c.model) {
+            const source = typeof c.model.data?.source === 'string' && c.model.data.source.startsWith('asset:') ? c.model.data.source.slice(6) : null;
+            const asset = source && world.assets.find(item => item.id === source);
+            if (!asset) throw new Error(`Model on ${entity.id} needs an asset:<id> source`);
+            if (!loadAsset) throw new Error('This renderer was created without an asset loader');
+            const { bytes, mediaType } = await loadAsset(world, asset.id);
+            if (signal.aborted) throw new Error('mount aborted');
+            const container = await loadModel(scene, bytes, mediaType ?? asset.mediaType, `${world.id}:${entity.id}:model`);
+            handle.containers.push(container);
+            if (signal.aborted) throw new Error('mount aborted');
+            container.addAllToScene();
+            for (const root of container.rootNodes) root.parent = node;
+            for (const mesh of container.meshes) { mesh.metadata = { entityId: entity.id }; if (c.collider) mesh.checkCollisions = true; }
+            const clip = typeof c.model.data?.animation === 'string' ? container.animationGroups.find(g => g.name === c.model.data.animation) : container.animationGroups[0];
+            if (clip && c.model.data?.autoplay !== false) { clip.start(true); handle.animations.push(clip); }
+          }
           if (c.light) { const light = createLight(`${world.id}:${entity.id}:light`, c.light.data, scene); if (light instanceof PointLight) light.parent = node; handle.lights.push(light); }
           if (c.behavior && typeof c.behavior.data?.kind === 'string') {
             handle.behaviors.push({ node, data: c.behavior.data, origin: node.position.clone(), baseRotation: node.rotationQuaternion.clone(), time: 0 });
@@ -93,12 +152,14 @@ export function createBabylonRenderer(scene, { render = true } = {}) {
     unmount(handle) {
       if (handle.disposed) return;
       handle.disposed = true;
+      for (const group of handle.animations) group.stop();
+      for (const container of handle.containers) { container.removeAllFromScene(); container.dispose(); }
       for (const light of handle.lights) light.dispose();
       for (const mesh of handle.meshes) mesh.dispose(false, false);
       for (const material of handle.materials) material.dispose(true, true);
       for (const node of [...handle.nodes.values()].reverse()) node.dispose(true);
       handle.nodes.clear();
-      handle.meshes.length = handle.materials.length = handle.lights.length = handle.behaviors.length = handle.floors.length = handle.sounds.length = 0;
+      handle.meshes.length = handle.materials.length = handle.lights.length = handle.behaviors.length = handle.floors.length = handle.sounds.length = handle.containers.length = handle.animations.length = 0;
     },
     renderFrame(handle, deltaSeconds) {
       for (const behavior of handle.behaviors) behave(behavior, deltaSeconds);
