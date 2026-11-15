@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Browser VR Engine – example world</title>
+  <link rel="icon" href="data:,">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: data:; worker-src 'self' blob:">
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0d12; color: #e8ecf3; font: 14px/1.4 system-ui, sans-serif; }
+    #scene { width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+    #hud { position: fixed; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; pointer-events: none; }
+    #hud > * { pointer-events: auto; }
+    .chip { background: rgba(11, 13, 18, .78); border-radius: 8px; padding: 6px 10px; }
+    select, button { font: inherit; background: #1d2330; color: #e8ecf3; border: 1px solid #3a4458; border-radius: 6px; padding: 4px 8px; }
+    #help { position: fixed; bottom: 12px; left: 12px; max-width: min(520px, calc(100% - 24px)); }
+    a { color: #9cc3ff; }
+  </style>
+</head>
+<body>
+  <canvas id="scene" aria-label="3D example world"></canvas>
+  <div id="hud">
+    <label class="chip">World
+      <select id="world"><option value="courtyard">Courtyard</option><option value="gallery">Gallery</option></select>
+    </label>
+    <button id="sound" class="chip" aria-pressed="false">Sound: off</button>
+    <span id="status" class="chip" role="status" aria-live="polite">Starting…</span>
+  </div>
+  <div id="help" class="chip">
+    <div>Desktop: click and drag to look, WASD / arrow keys to move. Touch: drag to look.</div>
+    <div id="xr">Checking WebXR…</div>
+    <div><a href="docs/">Engine docs</a> · <a href="THIRD_PARTY_NOTICES.txt">Notices</a> · Provisional Babylon.js foundation, pending physical-headset verification.</div>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

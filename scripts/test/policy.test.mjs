@@ -36,7 +36,7 @@ for (const [name, mutate] of [
 const manifest = JSON.parse(await readFile(new URL('../../package.json', import.meta.url), 'utf8'));
 test('required package and example commands include every foundation host and suite', () => {
   assert.deepEqual(validatePackageCommands(manifest), []);
-  for (const suffix of [' && npm run test --workspace @browser-vr-engine/contracts', ' && npm run test --workspace @browser-vr-engine/qualification-fixtures']) {
+  for (const suffix of [' && npm run test --workspace @browser-vr-engine/contracts', ' && npm run test --workspace @browser-vr-engine/qualification-fixtures', ' && npm run test --workspace @browser-vr-engine/world', ' && npm run test --workspace @browser-vr-engine/runtime', ' && npm run test --workspace @browser-vr-engine/world-demo']) {
     const changed = structuredClone(manifest);
     changed.scripts.test = changed.scripts.test.replace(suffix, '');
     assert.ok(validatePackageCommands(changed).length);

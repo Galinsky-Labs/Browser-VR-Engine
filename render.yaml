@@ -1,0 +1,12 @@
+# Render blueprint (documentation of the deployed service; created through the Render API).
+services:
+  - type: web
+    runtime: static
+    name: browser-vr-engine
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci --ignore-scripts --no-audit --no-fund && npm run example:world:build
+    staticPublishPath: examples/world-demo/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0

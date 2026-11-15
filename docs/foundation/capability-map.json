@@ -1,0 +1,863 @@
+{
+ "schemaVersion": 1,
+ "status": "provisional-owner-deferred",
+ "decision": "docs/decisions/0002-provisional-foundation-selection.md",
+ "foundation": {
+  "renderer": "@babylonjs/core@9.30.0",
+  "physics": "@dimforge/rapier3d-compat@0.21.0",
+  "retired": "hubs-spoke production path (evaluation evidence retained)"
+ },
+ "pendingVerification": "Physical headset/controller/audio and target-device qualification (R08, M23, M26).",
+ "cards": [
+  {
+   "card": "F07",
+   "disposition": "implement",
+   "basis": "Foundation work on the selected stack"
+  },
+  {
+   "card": "F08",
+   "disposition": "implement",
+   "basis": "Foundation work on the selected stack"
+  },
+  {
+   "card": "W01",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W02",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W03",
+   "disposition": "reuse",
+   "basis": "@babylonjs/core + @babylonjs/loaders glTF/GLB loading behind the RendererPort"
+  },
+  {
+   "card": "W04",
+   "disposition": "adapt",
+   "basis": "Babylon input/camera controls mapped to engine actions (runtime ActionState)"
+  },
+  {
+   "card": "W05",
+   "disposition": "reuse",
+   "basis": "Babylon WebXRDefaultExperience sessions, controllers, teleportation"
+  },
+  {
+   "card": "W06",
+   "disposition": "adapt",
+   "basis": "Babylon WebXR hand tracking and pointer selection features"
+  },
+  {
+   "card": "W07",
+   "disposition": "reuse",
+   "basis": "Rapier 0.21 fixed-step physics (evaluated in F05) behind a physics port"
+  },
+  {
+   "card": "W08",
+   "disposition": "adapt",
+   "basis": "Rapier character controller with Babylon teleportation"
+  },
+  {
+   "card": "W09",
+   "disposition": "adapt",
+   "basis": "Rapier joints and Babylon pointer drag behaviours"
+  },
+  {
+   "card": "W10",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W11",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W12",
+   "disposition": "implement",
+   "basis": "Generic glTF avatars via Babylon loaders; VRM adapter implemented"
+  },
+  {
+   "card": "W13",
+   "disposition": "adapt",
+   "basis": "Babylon animation groups and skeleton retargeting"
+  },
+  {
+   "card": "W14",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W15",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W16",
+   "disposition": "adapt",
+   "basis": "Babylon ground/terrain meshes with engine tile schema"
+  },
+  {
+   "card": "W17",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W18",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W19",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W20",
+   "disposition": "adapt",
+   "basis": "Babylon WebGL2/WebGPU engine selection and context-loss recovery"
+  },
+  {
+   "card": "W21",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W22",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "W23",
+   "disposition": "implement",
+   "basis": "Engine module on the Babylon/Rapier foundation"
+  },
+  {
+   "card": "A01",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A02",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A03",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A04",
+   "disposition": "reuse",
+   "basis": "@babylonjs/loaders glTF 2.0 ingestion with engine feature validation"
+  },
+  {
+   "card": "A05",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A06",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A07",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A08",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A09",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A10",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A11",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A12",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A13",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A14",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A15",
+   "disposition": "adapt",
+   "basis": "@babylonjs/serializers GLB export plus engine world bundle"
+  },
+  {
+   "card": "A16",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A17",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A18",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A19",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A20",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A21",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A22",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A23",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A24",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "A25",
+   "disposition": "implement",
+   "basis": "Engine asset pipeline; Babylon loaders/serializers where they meet the card"
+  },
+  {
+   "card": "N01",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N02",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N03",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N04",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N05",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N06",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N07",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N08",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N09",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N10",
+   "disposition": "reuse",
+   "basis": "Yjs (not yet pinned) behind an authenticated engine adapter"
+  },
+  {
+   "card": "N11",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N12",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N13",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "N14",
+   "disposition": "implement",
+   "basis": "Engine authoritative networking; released VRSpace server is reference-only"
+  },
+  {
+   "card": "M01",
+   "disposition": "adapt",
+   "basis": "WebAudio graph behind the engine listener contract"
+  },
+  {
+   "card": "M02",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M03",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M04",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M05",
+   "disposition": "reuse",
+   "basis": "LiveKit client/server behind engine media contracts (adapter only)"
+  },
+  {
+   "card": "M06",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M07",
+   "disposition": "reuse",
+   "basis": "Self-hosted LiveKit SFU and coturn deployment harness"
+  },
+  {
+   "card": "M08",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M09",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M10",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M11",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M12",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M13",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M14",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M15",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M16",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M17",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M18",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M19",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M20",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M21",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M22",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M23",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M24",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M25",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "M26",
+   "disposition": "implement",
+   "basis": "Engine media graph over WebAudio/WebRTC; LiveKit adapter where selected"
+  },
+  {
+   "card": "B01",
+   "disposition": "adapt",
+   "basis": "Babylon scene graph with an engine editor shell; Spoke retired as production editor"
+  },
+  {
+   "card": "B02",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B03",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B04",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B05",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B06",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B07",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B08",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B09",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "B10",
+   "disposition": "adapt",
+   "basis": "Engine browser editor on the Babylon scene; Spoke evaluation retained as reference"
+  },
+  {
+   "card": "R01",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R02",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R03",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R04",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R05",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R06",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R07",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R08",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R09",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R10",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R11",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R12",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "R13",
+   "disposition": "implement",
+   "basis": "Engine qualification/release work on the selected foundation"
+  },
+  {
+   "card": "C01",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C02",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C03",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C04",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C05",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C06",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C07",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C08",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C09",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C10",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C11",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C12",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C13",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C14",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C15",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C16",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C17",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C18",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C19",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C20",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C21",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C22",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C23",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C24",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C25",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C26",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "G01",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G02",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G03",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G04",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G05",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G06",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G07",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G08",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G09",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G10",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G11",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G12",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G13",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G14",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G15",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "G16",
+   "disposition": "implement",
+   "basis": "Engine generation/NPC mechanisms behind provider adapters"
+  },
+  {
+   "card": "C27",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C28",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C29",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C30",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C31",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C32",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C33",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C34",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C35",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C36",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C37",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C38",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C39",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C40",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  },
+  {
+   "card": "C41",
+   "disposition": "application",
+   "basis": "Owned by the XLR8 application; consumes engine contracts only"
+  }
+ ]
+}
