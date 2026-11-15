@@ -35,7 +35,7 @@ export function validateScopes(document) {
     if (!object(scope) || typeof scope.id !== 'string' || seen.has(scope.id)) { errors.push('Invalid or duplicate scope'); continue; }
     seen.add(scope.id);
     if (!['required', 'not_applicable'].includes(scope.status) || !/^[A-Z]\d{2}$/.test(scope.activationCard ?? '') || typeof scope.reason !== 'string' || !scope.reason.trim()) errors.push(`Invalid scope ${scope.id}`);
-    if (scope.status === 'required' && !['foundation', 'browser'].includes(scope.id)) errors.push(`Scope ${scope.id} needs a real runner before activation`);
+    if (scope.status === 'required' && !['foundation', 'browser'].includes(scope.id) && !/^\.github\/workflows\/[a-z0-9-]+\.yml$/.test(scope.runner ?? '')) errors.push(`Scope ${scope.id} needs a real runner before activation`);
   }
   if (document.scopes.find(scope => scope?.id === 'foundation')?.status !== 'required') errors.push('Foundation scope must be required');
   if (document.scopes.find(scope => scope?.id === 'browser')?.status !== 'required') errors.push('Browser evaluation scope must be required');

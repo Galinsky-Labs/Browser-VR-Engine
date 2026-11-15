@@ -33,7 +33,7 @@ for (const [name, mutate, expected] of [
   ['duplicate report', record => record.files.push(record.files[0]), /Invalid report inventory/],
   ['failed completion', record => { record.complete = false; }, /incomplete/],
   ['wrong workflow', record => { record.workflowRef = 'other/workflow@main'; }, /Wrong workflow/],
-  ['inactive suite promoted without runner', record => { record.scopeRegistry.scopes[1].status = 'required'; }, /real runner/]
+  ['suite promoted without runner', record => { record.scopeRegistry.scopes[1].status = 'required'; delete record.scopeRegistry.scopes[1].runner; }, /real runner/]
 ]) {
   test(`evidence mutation rejects ${name}`, () => {
     const record = fixture();

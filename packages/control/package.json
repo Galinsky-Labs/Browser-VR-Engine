@@ -1,0 +1,14 @@
+{
+  "name": "@browser-vr-engine/control",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:integration": "node --test --test-concurrency=1 test/postgres.integration.mjs"
+  },
+  "devDependencies": { "pg": "8.16.3" }
+}

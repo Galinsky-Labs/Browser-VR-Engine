@@ -121,14 +121,20 @@
     },
     {
       "id": "F08",
-      "status": "planned",
+      "status": "implemented",
       "pullRequest": null,
       "mergedCommit": null,
-      "verification": [],
-      "securityReview": null,
+      "verification": [
+        "docs/evidence/F08.md",
+        "packages/control/test/control.test.mjs",
+        "packages/control/test/postgres.integration.mjs"
+      ],
+      "securityReview": "docs/security/F08.md",
       "deployment": null,
-      "blockers": [],
-      "nextAction": "Wait for accepted dependencies."
+      "blockers": [
+        "Builds on the provisional F06 foundation (decision 0002), pending physical-headset verification."
+      ],
+      "nextAction": "Add an S3-compatible object-store adapter and a worker runtime when a hosted service is deployed."
     },
     {
       "id": "W01",
