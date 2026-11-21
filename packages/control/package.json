@@ -10,5 +10,5 @@
     "test": "node --test test/*.test.mjs",
     "test:integration": "node --test --test-concurrency=1 test/postgres.integration.mjs"
   },
-  "devDependencies": { "pg": "8.16.3" }
+  "devDependencies": { "pg": "8.23.1" }
 }
